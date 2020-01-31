@@ -1,12 +1,39 @@
 {
   "name": "@reuters-graphics/runner",
   "version": "0.0.1",
-  "description": "Task runner",
+  "description": "A better way to organize npm scripts, with argument hoisting for chaining sequential tasks.",
   "main": "lib/index.js",
   "author": "Jon McClure <jon.r.mcclure@gmail.com>",
   "license": "MIT",
+  "homepage": "https://github.com/reuters-graphics/runner#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:reuters-graphics/runner.git"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "main": "dist/index.js",
+  "bin": {
+    "runner": "dist/cli.js"
+  },
   "private": false,
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "npm scripts",
+    "runner",
+    "task runner",
+    "build",
+    "tool",
+    "tooling",
+    "pipeline",
+    "series",
+    "cli"
+  ],
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "rollup --config rollup.config.js",
     "test": "mocha"
   },
