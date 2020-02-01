@@ -3,7 +3,7 @@ const argParser = require('yargs-parser');
 const Runner = require('../dist');
 
 describe('Test commands', function() {
-  it('Should construe simple tasks', function() {
+  it('Should construe simple tasks', async function() {
     const testConfig = {
       scripts: {
         bundler: 'webpack',
@@ -18,33 +18,34 @@ describe('Test commands', function() {
           ],
         },
       },
+      inputs: {},
     };
 
     let runner, argv, spawnedCommands;
 
     argv = argParser('build');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['webpack', ['--config', './webpack.conf.js']],
     ]);
 
     argv = argParser('build:prod');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['webpack', ['--config', './webpack.conf.js', '--minify']],
     ]);
 
     argv = argParser('process:img');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['npx', ['./bin/resizer.js', '--sizes', '200', '--sizes', '300', '--sizes', '400']],
     ]);
   });
 
-  it('Should hoist env', function() {
+  it('Should hoist env', async function() {
     const testConfig = {
       scripts: {
         webpack: 'webpack',
@@ -67,26 +68,27 @@ describe('Test commands', function() {
           },
         },
       },
+      inputs: {},
     };
 
     let runner, argv, spawnedCommands;
 
     argv = argParser('build');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['webpack', ['production']],
     ]);
 
     argv = argParser('build:prod');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['webpack', ['--minify', 'production']],
     ]);
   });
 
-  it('Should hoist positional args', function() {
+  it('Should hoist positional args', async function() {
     const testConfig = {
       scripts: {
         webpack: 'webpack',
@@ -104,33 +106,34 @@ describe('Test commands', function() {
           ],
         },
       },
+      inputs: {},
     };
 
     let runner, argv, spawnedCommands;
 
     argv = argParser('build app');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['webpack', ['app']],
     ]);
 
     argv = argParser('build:prod app thing');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['webpack', ['app', 'thing']],
     ]);
 
     argv = argParser('build:stage app thing');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['webpack', ['thing', '--minify', 'app']],
     ]);
   });
 
-  it('Should hoist keyword args', function() {
+  it('Should hoist keyword args', async function() {
     const testConfig = {
       scripts: {
         webpack: 'bundler',
@@ -148,33 +151,34 @@ describe('Test commands', function() {
           ],
         },
       },
+      inputs: {},
     };
 
     let runner, argv, spawnedCommands;
 
     argv = argParser('build --locale en');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['bundler', ['en']],
     ]);
 
     argv = argParser('build:prod --locale en --country England');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['bundler', ['en', 'England']],
     ]);
 
     argv = argParser('build:stage --locale en --country England');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['bundler', ['England', '--minify', 'en']],
     ]);
   });
 
-  it('Should construe scripts', function() {
+  it('Should construe scripts', async function() {
     const testConfig = {
       scripts: {
         webpack: 'npx ./bundler/index.js',
@@ -187,26 +191,27 @@ describe('Test commands', function() {
           ],
         },
       },
+      inputs: {},
     };
 
     let runner, argv, spawnedCommands;
 
     argv = argParser('build --locale en');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['npx', ['./bundler/index.js', 'en']],
     ]);
 
     argv = argParser('build:stage --locale en --country England');
     runner = new Runner(testConfig, argv);
-    spawnedCommands = runner.runTasks();
+    spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['npx', ['./bundler/index.js', 'England', '--minify', 'en']],
     ]);
   });
 
-  it('Should also run other tasks', function() {
+  it('Should also run other tasks', async function() {
     const testConfig = {
       scripts: {
         webpack: 'npx ./bundler/index.js',
@@ -223,11 +228,12 @@ describe('Test commands', function() {
           ],
         },
       },
+      inputs: {},
     };
 
     const argv = argParser('publish "*.html" --locale en --imgsize 600 --imgsize 1200');
     const runner = new Runner(testConfig, argv);
-    const spawnedCommands = runner.runTasks();
+    const spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['npx', ['./bundler/index.js', 'en']],
       ['npx', ['./resize.js', '--format', 'jpg', '--size', '600', '--size', '1200']],
@@ -235,7 +241,7 @@ describe('Test commands', function() {
     ]);
   });
 
-  it('Should be able to override arguments in sub-tasks', function() {
+  it('Should be able to override arguments in sub-tasks', async function() {
     const testConfig = {
       scripts: {
         img: 'npx ./resize.js',
@@ -255,14 +261,74 @@ describe('Test commands', function() {
           ],
         },
       },
+      inputs: {},
     };
 
     const argv = argParser('publish s3://stagingBucket index.js  --img 600 --img 1200');
     const runner = new Runner(testConfig, argv);
-    const spawnedCommands = runner.runTasks();
+    const spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
       ['npx', ['./resize.js', '--size', '600', '--size', '1200']],
       ['webpack', ['index.js', '--config', './config.js', '--env', 'prod']],
+      ['aws', ['s3', 'sync', './dist/', 's3://stagingBucket']],
+    ]);
+  });
+
+  it('Should use inputs to change args/kwargs', async function() {
+    const testConfig = {
+      scripts: {
+        img: 'npx ./resize.js',
+        aws: 'aws s3 sync ./dist/',
+      },
+      tasks: {
+        build: {
+          run: [
+            'ask:sizes',
+            ['img', { size: '$img' }],
+            ['webpack', ['$1'], { config: './config.js', env: 'prod', locale: '$locale' }],
+          ],
+        },
+        publish: {
+          run: [
+            'ask:locale',
+            ['build', ['$2'], { locale: '$locale' }],
+            ['aws', ['$1']],
+          ],
+        },
+      },
+      inputs: {
+        'ask:locale': async({ kwargs }) => {
+          const prompts = require('prompts');
+          prompts.inject(['de']);
+          const { locale } = await prompts({
+            type: 'text',
+            name: 'locale',
+            message: 'Which locale should we build?',
+          });
+
+          kwargs.locale = locale;
+        },
+        'ask:sizes': async({ kwargs }) => {
+          const prompts = require('prompts');
+          prompts.inject([['500', '800']]);
+          const { sizes } = await prompts({
+            type: 'list',
+            name: 'sizes',
+            message: 'Enter sizes of images',
+            initial: '',
+            separator: ',',
+          });
+          kwargs.img = sizes;
+        },
+      },
+    };
+
+    const argv = argParser('publish s3://stagingBucket index.js');
+    const runner = new Runner(testConfig, argv);
+    const spawnedCommands = await runner.runTasks();
+    expect(spawnedCommands).to.deep.equal([
+      ['npx', ['./resize.js', '--size', '500', '--size', '800']],
+      ['webpack', ['index.js', '--config', './config.js', '--env', 'prod', '--locale', 'de']],
       ['aws', ['s3', 'sync', './dist/', 's3://stagingBucket']],
     ]);
   });

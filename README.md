@@ -165,6 +165,43 @@ $ runner publish s3://stagingBucket index.js  --img 600 --img 1200
 #   aws s3 sync ./dist/ s3://stagingBucket
 ```
 
+## Writing inputs
+
+If you're writing you tasks config in `.tasksrc.js` file, you can also define functions in an `inputs' key that can change or supply additional positional and named arguments to your task chains.
+
+```javascript
+module.exports = {
+  tasks: {
+    build: { /* ... */ },
+    publish: {
+      run: [
+        'ask:locale',
+        ['build', { locale: '$locale' }],
+        // ...
+      ]
+    }
+  }
+  inputs: {
+    'ask:locale': ({ args, kwargs }) => {
+      const prompts = require('prompts');
+
+      const { locale } = await prompts({
+        type: 'select',
+        name: 'locale',
+        message: 'Which locale do you want to publish?',
+        choices: [
+          { title: 'English', value: 'en' },
+          { title: 'Spanish', value: 'es' },
+          { title: 'German', value: 'de' },
+        ]
+      });
+
+      kwargs.locale = locale;
+    }
+  }
+}
+```
+
 ## Testing
 
 ```

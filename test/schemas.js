@@ -14,6 +14,7 @@ describe('Test schemas', function() {
         all: 'npx ./with/path.js --minify $NODE_ENV',
       },
       tasks: {},
+      inputs: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -28,6 +29,7 @@ describe('Test schemas', function() {
         build: 'webpack',
         'build:prod': 'webpack --minify $NODE_ENV',
       },
+      inputs: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -47,6 +49,7 @@ describe('Test schemas', function() {
           run: ['webpack'],
         },
       },
+      inputs: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -69,6 +72,7 @@ describe('Test schemas', function() {
           run: 'webpack',
         },
       },
+      inputs: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -96,6 +100,7 @@ describe('Test schemas', function() {
           ],
         },
       },
+      inputs: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -113,6 +118,7 @@ describe('Test schemas', function() {
           ],
         },
       },
+      inputs: {},
     };
 
     const valid = ajv.validate(schema, config);
