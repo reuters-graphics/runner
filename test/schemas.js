@@ -92,6 +92,7 @@ describe('Test schemas', function() {
               locale: '$1',
               anArray: [100, 200, 300],
             }, ['thing', '$locale']],
+            ['webpack', ['"quoted value"'], { arg: '\'quoted value $@#@!#%@\'' }],
           ],
         },
       },
