@@ -139,7 +139,7 @@ module.exports = {
   scripts: {
     'img': 'npx ./bin/imgResizer.js',
     'aws': 'aws s3 sync ./dist/',
-  }
+  },
   tasks: {
     build: {
       run: [
@@ -167,7 +167,7 @@ $ runner publish s3://stagingBucket index.js  --img 600 --img 1200
 
 ## Writing inputs
 
-If you're writing you tasks config in `.tasksrc.js` file, you can also define functions in an `inputs' key that can change or supply additional positional and named arguments to your task chains.
+If you're writing your tasks config in `.tasksrc.js` file, you can also define functions in an `inputs` key that can change or supply additional positional and named arguments to your task chains.
 
 ```javascript
 module.exports = {
@@ -178,9 +178,9 @@ module.exports = {
         'ask:locale',
         ['build', { locale: '$locale' }],
         // ...
-      ]
-    }
-  }
+      ],
+    },
+  },
   inputs: {
     'ask:locale': ({ args, kwargs }) => {
       const prompts = require('prompts');
@@ -193,12 +193,12 @@ module.exports = {
           { title: 'English', value: 'en' },
           { title: 'Spanish', value: 'es' },
           { title: 'German', value: 'de' },
-        ]
+        ],
       });
 
       kwargs.locale = locale;
-    }
-  }
+    },
+  },
 }
 ```
 
