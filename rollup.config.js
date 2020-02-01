@@ -11,13 +11,21 @@ const plugins = [
 const output = {
   dir: 'dist',
   format: 'cjs',
-  paths: { '@reuters-graphics/runner': './index.js' },
+  paths: {
+    '@reuters-graphics/runner': './index.js',
+    '@reuters-graphics/runner/schema': './schema/index.js',
+  },
 };
 
 export default [{
+  input: 'lib/schema/index.js',
+  output: { ...output, ...{ dir: 'dist/schema' } },
+  plugins,
+}, {
   input: 'lib/index.js',
   output,
   plugins,
+  external: ['@reuters-graphics/runner/schema'],
 }, {
   input: 'lib/cli.js',
   output: { ...output, ...{ banner: '#!/usr/bin/env node' } },

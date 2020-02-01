@@ -1,6 +1,6 @@
-const expect = require('expect.js');
+const { expect } = require('chai');
 const Ajv = require('ajv');
-const { schema } = require('../dist');
+const schema = require('../dist/schema');
 
 describe('Test schemas', function() {
   const ajv = new Ajv();
@@ -18,7 +18,7 @@ describe('Test schemas', function() {
 
     const valid = ajv.validate(schema, config);
     if (!valid) console.log(ajv.errors);
-    expect(valid).to.be(true);
+    expect(valid).to.be.true;
   });
 
   it('Should validate short tasks', function() {
@@ -32,7 +32,7 @@ describe('Test schemas', function() {
 
     const valid = ajv.validate(schema, config);
     if (!valid) console.log(ajv.errors);
-    expect(valid).to.be(true);
+    expect(valid).to.be.true;
   });
 
   it('Should validate task env', function() {
@@ -51,7 +51,7 @@ describe('Test schemas', function() {
 
     const valid = ajv.validate(schema, config);
     if (!valid) console.log(ajv.errors);
-    expect(valid).to.be(true);
+    expect(valid).to.be.true;
   });
 
   it('Should validate task run string', function() {
@@ -73,7 +73,7 @@ describe('Test schemas', function() {
 
     const valid = ajv.validate(schema, config);
     if (!valid) console.log(ajv.errors);
-    expect(valid).to.be(true);
+    expect(valid).to.be.true;
   });
 
   it('Should validate task run construed', function() {
@@ -87,7 +87,11 @@ describe('Test schemas', function() {
             ['webpack', { minify: '$ENV' }],
             ['webpack', ['$locale']],
             ['webpack', ['thing', '$locale'], { minify: true, locale: '$1' }],
-            ['webpack', { minify: true, locale: '$1' }, ['thing', '$locale']],
+            ['webpack', {
+              minify: true,
+              locale: '$1',
+              anArray: [100, 200, 300],
+            }, ['thing', '$locale']],
           ],
         },
       },
@@ -95,7 +99,7 @@ describe('Test schemas', function() {
 
     const valid = ajv.validate(schema, config);
     if (!valid) console.log(ajv.errors);
-    expect(valid).to.be(true);
+    expect(valid).to.be.true;
   });
 
   it('Should not validate task run mixed construed', function() {
@@ -111,6 +115,6 @@ describe('Test schemas', function() {
     };
 
     const valid = ajv.validate(schema, config);
-    expect(valid).to.be(false);
+    expect(valid).to.be.false;
   });
 });

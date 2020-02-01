@@ -1,6 +1,9 @@
 {
   "root": true,
-  "extends": "@hobbes7878/eslint-config",
+  "extends": [
+    "@hobbes7878/eslint-config",
+    "plugin:chai-friendly/recommended"
+  ],
   "plugins": [
       "mocha"
   ],
