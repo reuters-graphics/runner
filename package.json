@@ -1,7 +1,7 @@
 {
   "name": "@reuters-graphics/runner",
   "version": "0.0.4",
-  "description": "A better way to organize npm scripts, with argument hoisting for chaining sequential tasks.",
+  "description": "A better way to organize npm scripts, with argument hoisting, env variable management and complex task chaining.",
   "main": "dist/index.js",
   "author": "Jon McClure <jon.r.mcclure@gmail.com>",
   "license": "MIT",

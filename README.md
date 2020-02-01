@@ -125,7 +125,7 @@ module.exports = {
       ],
       env: {
         NODE_ENV: 'production',
-      }
+      },
     },
   },
 }
@@ -143,7 +143,7 @@ module.exports = {
   tasks: {
     build: {
       run: [
-        ['img': { sizes: '$img' }],
+        ['img', { sizes: '$img' }],
         ['webpack', ['$1'], { config: './config.js', env: 'prod' }],
       ],
     },
@@ -151,8 +151,8 @@ module.exports = {
       run: [
         ['build', ['$2']], // 2nd positional passed as 1st to "build"
         ['aws', ['$1']],
-      ]
-    }
+      ],
+    },
   },
 }
 ```
