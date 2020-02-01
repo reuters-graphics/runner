@@ -4,7 +4,7 @@
 
 A better way to organize npm scripts, with argument hoisting, env variable management and complex task chaining.
 
-[![Reuters open source software](https://badgen.net/badge/Reuters/open%20source/?color=ff8000)](https://github.com/reuters-graphics/)
+[![npm version](https://badge.fury.io/js/%40reuters-graphics%2Frunner.svg)](https://badge.fury.io/js/%40reuters-graphics%2Frunner) [![Reuters open source software](https://badgen.net/badge/Reuters/open%20source/?color=ff8000)](https://github.com/reuters-graphics/)
 
 ### Why this?
 
