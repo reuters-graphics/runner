@@ -27,7 +27,7 @@ describe('Test commands', function() {
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['webpack', ['--config', './webpack.conf.js']],
+      ['npx', ['webpack', '--config', './webpack.conf.js']],
     ]);
 
     argv = argParser('build:prod');
@@ -77,14 +77,14 @@ describe('Test commands', function() {
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['webpack', ['production']],
+      ['npx', ['webpack', 'production']],
     ]);
 
     argv = argParser('build:prod');
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['webpack', ['--minify', 'production']],
+      ['npx', ['webpack', '--minify', 'production']],
     ]);
   });
 
@@ -115,21 +115,21 @@ describe('Test commands', function() {
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['webpack', ['app']],
+      ['npx', ['webpack', 'app']],
     ]);
 
     argv = argParser('build:prod app thing');
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['webpack', ['app', 'thing']],
+      ['npx', ['webpack', 'app', 'thing']],
     ]);
 
     argv = argParser('build:stage app thing');
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['webpack', ['thing', '--minify', 'app']],
+      ['npx', ['webpack', 'thing', '--minify', 'app']],
     ]);
   });
 
@@ -160,21 +160,21 @@ describe('Test commands', function() {
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['bundler', ['en']],
+      ['npx', ['bundler', 'en']],
     ]);
 
     argv = argParser('build:prod --locale en --country England');
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['bundler', ['en', 'England']],
+      ['npx', ['bundler', 'en', 'England']],
     ]);
 
     argv = argParser('build:stage --locale en --country England');
     runner = new Runner(testConfig, argv);
     spawnedCommands = await runner.runTasks();
     expect(spawnedCommands).to.deep.equal([
-      ['bundler', ['England', '--minify', 'en']],
+      ['npx', ['bundler', 'England', '--minify', 'en']],
     ]);
   });
 
@@ -237,7 +237,7 @@ describe('Test commands', function() {
     expect(spawnedCommands).to.deep.equal([
       ['npx', ['./bundler/index.js', 'en']],
       ['npx', ['./resize.js', '--format', 'jpg', '--size', '600', '--size', '1200']],
-      ['aws', ['s3', 'sync', '--include', '"*.html"']],
+      ['npx', ['aws', 's3', 'sync', '--include', '"*.html"']],
     ]);
   });
 
@@ -270,7 +270,7 @@ describe('Test commands', function() {
     expect(spawnedCommands).to.deep.equal([
       ['npx', ['./resize.js', '--size', '600', '--size', '1200']],
       ['webpack', ['index.js', '--config', './config.js', '--env', 'prod']],
-      ['aws', ['s3', 'sync', './dist/', 's3://stagingBucket']],
+      ['npx', ['aws', 's3', 'sync', './dist/', 's3://stagingBucket']],
     ]);
   });
 
@@ -329,7 +329,7 @@ describe('Test commands', function() {
     expect(spawnedCommands).to.deep.equal([
       ['npx', ['./resize.js', '--size', '500', '--size', '800']],
       ['webpack', ['index.js', '--config', './config.js', '--env', 'prod', '--locale', 'de']],
-      ['aws', ['s3', 'sync', './dist/', 's3://stagingBucket']],
+      ['npx', ['aws', 's3', 'sync', './dist/', 's3://stagingBucket']],
     ]);
   });
 });
