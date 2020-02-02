@@ -8,13 +8,13 @@ A better way to organize npm scripts, with argument hoisting, env variable manag
 
 ### Why this?
 
-If you're like us, you've kicked the can on task runners. Using plain node scripts helps us stay clear of the plugin bottleneck of build systems like Gulp and Grunt. But calling those scripts and chaining them together into complex tasks -- especially with any configuration options -- can be a bit ugly to do in npm-scripts.
+If you're like us, you've [broken up with task runners](https://www.freecodecamp.org/news/why-i-left-gulp-and-grunt-for-npm-scripts-3d6853dd22b8/) like Grunt and Gulp. Using plain node scripts helps us steer clear of plugin bottlenecks, but calling those scripts and chaining them together into complex tasks -- especially with CLI options -- can be a bit ugly to do in package.json.
 
-runner gives us a more natural way to express how our scripts are called and represent the arguments and environment they share. Basically, it makes our npm-scripts easier to read, which helps us write better, friendlier task chains.
+runner gives us a more natural way to map out how our scripts are called and clearly define the arguments and environment they share. It makes our NPM scripts easier to read, keeps our individual task CLIs clean and helps us write better, friendlier task chains.
 
 ### What's it do?
 
-runner uses a `tasks` key in your package.json (or a dedicated config file) to help orchestrate your npm-scripts. You can chain scripts into complex tasks and compose arguments passed down through your task's commands.
+runner uses a `tasks` key in your package.json (or a dedicated config file) to help orchestrate your NPM scripts. You can chain scripts into complex tasks and compose arguments passed down through your task's commands.
 
 ## Quickstart
 
@@ -182,7 +182,7 @@ module.exports = {
     },
   },
   inputs: {
-    'ask:locale': ({ args, kwargs }) => {
+    'ask:locale': async({ args, kwargs }) => {
       const prompts = require('prompts');
 
       const { locale } = await prompts({
