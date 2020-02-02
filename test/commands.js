@@ -332,4 +332,21 @@ describe('Test commands', function() {
       ['npx', ['aws', 's3', 'sync', './dist/', 's3://stagingBucket']],
     ]);
   });
+
+  it('Should allow passing script directly', async function() {
+    const testConfig = {
+      scripts: {
+        aws: 'aws s3 sync ./dist/',
+      },
+      tasks: {},
+      inputs: {},
+    };
+
+    const argv = argParser('aws s3://stagingBucket --exclude "**/*.map"');
+    const runner = new Runner(testConfig, argv);
+    const spawnedCommands = await runner.runTasks();
+    expect(spawnedCommands).to.deep.equal([
+      ['npx', ['aws', 's3', 'sync', './dist/', 's3://stagingBucket', '--exclude', '**/*.map']],
+    ]);
+  });
 });
