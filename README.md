@@ -202,6 +202,26 @@ module.exports = {
 }
 ```
 
+## Help tips
+
+You can write tips to tell a user what commands are available and descriptions for what they do in a `help` key in your `.tasksrc.js` file.
+
+```javascript
+module.exports = {
+  tasks: {
+    build: { /* ... */ },
+    publish: { /* ... */ },
+    'img:resize': { /* ... */ },
+  },
+  help: {
+    publish: 'Build and publish your project.',
+    'img:resize': 'Create responsive image sets for srcset attrs.',
+  },
+}
+```
+
+Now when a user runs `$ runner` without a task, they'll see your tips.
+
 ## Testing
 
 ```

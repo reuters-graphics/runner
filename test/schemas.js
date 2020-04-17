@@ -15,6 +15,7 @@ describe('Test schemas', function() {
       },
       tasks: {},
       inputs: {},
+      help: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -30,6 +31,7 @@ describe('Test schemas', function() {
         'build:prod': 'webpack --minify $NODE_ENV',
       },
       inputs: {},
+      help: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -50,6 +52,7 @@ describe('Test schemas', function() {
         },
       },
       inputs: {},
+      help: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -73,6 +76,7 @@ describe('Test schemas', function() {
         },
       },
       inputs: {},
+      help: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -101,6 +105,7 @@ describe('Test schemas', function() {
         },
       },
       inputs: {},
+      help: {},
     };
 
     const valid = ajv.validate(schema, config);
@@ -119,6 +124,7 @@ describe('Test schemas', function() {
         },
       },
       inputs: {},
+      help: {},
     };
 
     const valid = ajv.validate(schema, config);
