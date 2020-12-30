@@ -349,4 +349,48 @@ describe('Test commands', function() {
       ['npx', ['aws', 's3', 'sync', './dist/', 's3://stagingBucket', '--exclude', '**/*.map']],
     ]);
   });
+
+  it('Should properly split complex scripts', async function() {
+    const testConfig = {
+      scripts: {
+        complex: 'npx ./resize.js && aws s3 sync ./dist/ s3://stagingBucket --exclude "**/*.map"',
+      },
+      tasks: {},
+      inputs: {},
+    };
+
+    const argv = argParser('complex');
+    const runner = new Runner(testConfig, argv);
+    const spawnedCommands = await runner.runTasks();
+    expect(spawnedCommands).to.deep.equal([
+      ['npx', ['./resize.js']],
+      ['npx', ['aws', 's3', 'sync', './dist/', 's3://stagingBucket', '--exclude', '**/*.map']],
+    ]);
+
+    const argv2 = argParser('complex argy --kwargy');
+    const runner2 = new Runner(testConfig, argv2);
+    const spawnedCommands2 = await runner2.runTasks();
+    expect(spawnedCommands2).to.deep.equal([
+      ['npx', ['./resize.js', 'argy', '--kwargy']],
+      ['npx', ['aws', 's3', 'sync', './dist/', 's3://stagingBucket', '--exclude', '**/*.map', 'argy', '--kwargy']],
+    ]);
+  });
+
+  it('Should pass args to all commands in complex scripts', async function() {
+    const testConfig = {
+      scripts: {
+        complex: 'npx ./resize.js && aws s3 sync ./dist/ s3://stagingBucket --exclude "**/*.map"',
+      },
+      tasks: {},
+      inputs: {},
+    };
+
+    const argv = argParser('complex argy --kwargy');
+    const runner = new Runner(testConfig, argv);
+    const spawnedCommands = await runner.runTasks();
+    expect(spawnedCommands).to.deep.equal([
+      ['npx', ['./resize.js', 'argy', '--kwargy']],
+      ['npx', ['aws', 's3', 'sync', './dist/', 's3://stagingBucket', '--exclude', '**/*.map', 'argy', '--kwargy']],
+    ]);
+  });
 });

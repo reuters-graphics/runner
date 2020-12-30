@@ -12,6 +12,7 @@ describe('Test schemas', function() {
         args: 'webpack --minify',
         env_vars: 'webpack $NODE_ENV',
         all: 'npx ./with/path.js --minify $NODE_ENV',
+        multiple: 'npx doTHing && npx doAnother',
       },
       tasks: {},
       inputs: {},
